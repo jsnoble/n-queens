@@ -139,7 +139,10 @@
       var rows = this.rows();
       var indexValues = [];
       var shiftRow = altStartRow || 0;
-      var colStop = rows.length - shiftRow;
+      var negativeIndexOffset = 0;
+      if(idx<0) {negativeIndexOffset = idx};
+      var colStop = rows.length - shiftRow + negativeIndexOffset;
+
 
       for(var i=idx; i<colStop; i++){
         indexValues.push(rows[shiftRow][i]);
@@ -175,17 +178,29 @@
 
 
 
-
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow, altStartRow) {
+
+      //var shiftRow = altStartRow || 0;
+      //var negativeIndexOffset = 0;
+      //if(idx<0) {negativeIndexOffset = idx};
+      //var colStop = rows.length - shiftRow + negativeIndexOffset;
+
       var idx =minorDiagonalColumnIndexAtFirstRow;
       var rows = this.rows();
       var indexValues = [];
       var shiftRow = altStartRow || 0;
-      var colStop = shiftRow;
+
+      var positiveIndexOffset = 0;
+      if(idx>=rows.length){
+        positiveIndexOffset = idx-(rows.length-1)
+      };
+
+      var colStop = shiftRow + positiveIndexOffset;
+
 
       for(var i=idx; i>=colStop; i--){
         indexValues.push(rows[shiftRow][i]);
