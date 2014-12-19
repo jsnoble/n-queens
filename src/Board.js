@@ -80,20 +80,20 @@
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
       var row = this.get(rowIndex);
-      //Are occurances of a queen or rook the same index?
-      if(row.indexOf(1) === row.lastIndexOf(1)){
-        return false;
+      var count = 0;
+      for(var i = 0; i < row.length; i++){
+        count += row[i];
       }
-      return true;
+      return count > 1;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      var rows = this.rows();
-      for(var i=0;i<rows.length;i++){
-        if(this.hasRowConflictAt(i)){
-          return true;
-        }
+      var length = this.get('n');
+      for (var i = 0; i < length; i++){
+       if(this.hasRowConflictAt(i)){
+         return true;
+       }
       }
       return false;
     },
@@ -106,21 +106,17 @@
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       var rows = this.rows();
-      var indexValues = [];
-      for(var i=0;i<rows.length;i++){
-        indexValues.push(rows[i][colIndex]);
+      var count = 0;
+      for(var i = 0; i < rows.length; i++){
+        count += rows[i][colIndex];
       }
-
-      if(indexValues.indexOf(1) === indexValues.lastIndexOf(1)){
-        return false;
-      }
-      return true;
+      return count > 1;
     },
 
-    // test if any columns on this board contain conflicts
+
     hasAnyColConflicts: function() {
-      var columns = this.rows().length;
-      for(var i = 0;i<columns;i++){
+      var columns = this.get('n');
+      for(var i = 0; i < columns; i++){
         if(this.hasColConflictAt(i)){
           return true;
         }
@@ -145,7 +141,9 @@
 
 
       for(var i=idx; i<colStop; i++){
-        indexValues.push(rows[shiftRow][i]);
+        if(idx>=0){
+          indexValues.push(rows[shiftRow][i]);
+        }
         shiftRow++;
       }
 
